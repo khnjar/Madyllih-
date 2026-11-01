@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id            String   @id @default(cuid())
+  name          String?
+  email         String   @unique
+  emailVerified DateTime?
+  image         String?
+  role          Role     @default(USER)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model BodySystem {
+  id               String   @id @default(cuid())
+  name             String
+  latinName        String
+  icon             String
+  description      String
+  relevantHadith   String
+  focus            String[]
+  stats            String[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model MedicalArticle {
+  id           String   @id @default(cuid())
+  title        String
+  category     String
+  summary      String
+  content      String
+  author       String
+  readTime     Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Hadith {
+  id          String   @id @default(cuid())
+  title       String
+  text        String
+  source      String
+  significance String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model QuizQuestion {
+  id          Int      @id @default(autoincrement())
+  question    String
+  options     String[]
+  answer      String
+  explanation String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  itemType  String
+  itemId    String
+  title     String
+  createdAt DateTime @default(now())
+}
